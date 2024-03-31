@@ -6,10 +6,9 @@ class ELM327():
         self._ser = None
 
         # Stop remaining command of ELM327
-        ser = serial.Serial(port, baudrate, timeout=0.1)
-        if ser.read(1):
-            ser.write(b'\r')
-        ser.close()
+        with serial.Serial(port, baudrate, timeout=0.1) as ser:
+            if ser.read(1):
+                ser.write(b'\r')
 
         self._ser = serial.Serial(port, baudrate, timeout=timeout)
 

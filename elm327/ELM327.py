@@ -3,6 +3,8 @@ import sys
 
 class ELM327():
     def __init__(self, port=None, baudrate=38400, timeout=None):
+        self._ser = None
+
         # Stop remaining command of ELM327
         ser = serial.Serial(port, baudrate, timeout=0.1)
         if ser.read(1):
@@ -18,7 +20,8 @@ class ELM327():
         assert self.sendSingleCommand("ATH1") == 'OK'
 
     def __del__(self):
-        self._ser.close()
+        if self._ser:
+            self._ser.close()
 
     def sendSingleCommand(self, cmd: str) -> str:
         if not cmd.upper().startswith("AT"):

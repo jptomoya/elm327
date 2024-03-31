@@ -7,20 +7,20 @@ from elm327 import ELM327
 
 class TestELM327(unittest.TestCase):
     def setUp(self):
-        self.elm_proc = subprocess.Popen(["elm"],
+        self.elm_emu_proc = subprocess.Popen(["elm"],
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
         # Retrieve the port that ELM327-emulator running
         while True:
-            line = self.elm_proc.stdout.readline()
+            line = self.elm_emu_proc.stdout.readline()
             if line.startswith(b'ELM327-emulator is running'):
                 self.port = line.strip().split()[-1].decode()
                 break
 
     def tearDown(self):
-        self.elm_proc.communicate(b"quit\n")
+        self.elm_emu_proc.communicate(b"quit\n")
 
-    def test_basicc_commands(self):
+    def test_basic_commands(self):
         elm = ELM327(self.port)
         self.assertEqual(elm.sendSingleCommand("ATD"), 'OK')
         self.assertEqual(elm.sendSingleCommand("ATSP6"), 'OK')

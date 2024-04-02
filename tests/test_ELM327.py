@@ -54,5 +54,15 @@ class TestELM327(unittest.TestCase):
             if x not in (b'CAN ERROR', b'NO DATA'):
                 self.assertRegex(x, rb'^7[0-9a-fA-F]{16}$')
 
+    def test_decodeISOTP(self):
+        self.assertEqual(ELM327._decodeISOTP([b'7EA0762011041424344']),
+            [(0x7EA, b'\x62\x01\x10ABCD')])
+        self.assertEqual(ELM327._decodeISOTP([b'7EA064100983A8013', b'7E8064100BE3FA813']),
+            [(0x7EA, b'\x41\x00\x98\x3A\x80\x13'), (0x7E8, b'\x41\x00\xBE\x3F\xA8\x13')])
+        self.assertEqual(ELM327._decodeISOTP([b'7E8037F3178AAAAAAAA', b'7E8047101FF01AAAAAA']),
+            [(0x7E8, b'\x7F\x31\x78'), (0x7E8, b'\x71\x01\xFF\x01')])
+        self.assertEqual(ELM327._decodeISOTP([b'7E81008620120313233', b'7E82134355555555555']),
+            [(0x7E8, b'\x62\x01\x2012345'),])
+
 if __name__ == '__main__':
     unittest.main()

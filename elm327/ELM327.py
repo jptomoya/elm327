@@ -26,7 +26,6 @@ class ELM327():
     def _decodeISOTP(data: list[bytes]) -> list[tuple[int, bytes]]:
         canid_focused = None
         result = []
-        buf = b''
 
         for raw_message in data:
             canid = int(raw_message[:3], 16)
@@ -37,7 +36,7 @@ class ELM327():
             elif d[0] & 0xF0 == 0x10:
                 canid_focused = canid
                 len_data = ((d[0] & 0xF)<<8) | d[1]
-                buf += d[2:]
+                buf = d[2:]
             elif d[0] & 0x20 == 0x20:
                 assert canid == canid_focused
                 buf += d[1:]

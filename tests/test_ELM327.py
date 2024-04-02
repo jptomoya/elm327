@@ -63,6 +63,8 @@ class TestELM327(unittest.TestCase):
             [(0x7E8, b'\x7F\x31\x78'), (0x7E8, b'\x71\x01\xFF\x01')])
         self.assertEqual(ELM327._decodeISOTP([b'7E81008620120313233', b'7E82134355555555555']),
             [(0x7E8, b'\x62\x01\x2012345'),])
+        self.assertEqual(ELM327._decodeISOTP([b'7E81008620120313233', b'7E82134355555555555', b'7EA1007620120414243', b'7EA2144']),
+            [(0x7E8, b'\x62\x01\x2012345'), (0x7EA, b'\x62\x01\x20ABCD')])
 
 if __name__ == '__main__':
     unittest.main()

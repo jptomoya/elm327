@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "elm327"
+version = "0.1.0"
+description = "My personal library for controlling ELM327 devices."
+authors = ["jptomoya <4786564+jptomoya@users.noreply.github.com>"]
+license = "MIT License"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyserial = "3.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
